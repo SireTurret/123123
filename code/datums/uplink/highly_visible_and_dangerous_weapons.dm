@@ -22,6 +22,11 @@
 
 /datum/uplink_item/item/visible_weapons/throwing_star
 	name = "Throwing Star"
+	item_cost = 5
+	path = /obj/item/weapon/material/star/ninja
+/*
+/datum/uplink_item/item/visible_weapons/dartgun
+	name = "Dart Gun"
 	item_cost = 20
 	path = /obj/item/weapon/material/star
 
@@ -33,7 +38,7 @@
 /datum/uplink_item/item/visible_weapons/dartgun
 	name = "Dart Gun"
 	item_cost = 20
-	path = /obj/item/weapon/gun/projectile/dartgun
+	path = /obj/item/weapon/gun/projectile/dartgun>>>>>>> 35d2867247... Removes a lot of traitor items, adds a few (#191)
 
 /datum/uplink_item/item/visible_weapons/g9mm
 	name = "Silenced Holdout Pistol"

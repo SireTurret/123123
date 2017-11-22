@@ -24,7 +24,6 @@
 	name = ".38 speedloader"
 	item_cost = 8
 	path = /obj/item/ammo_magazine/c38
-
 /*
 /datum/uplink_item/item/ammo/c45m
 	name = ".45"
