@@ -33,7 +33,7 @@
 	category = "General"
 
 /datum/metal_lathe/recipe/action
-	name = "Action"
+	name = "action"
 	path = /obj/item/action
 	category = "General"
 
@@ -95,4 +95,9 @@
 /datum/metal_lathe/recipe/knife_blade
 	name = "Knife Blade"
 	path = /obj/item/weapon/material/butterflyblade
+	category = "General"
+
+/datum/metal_lathe/recipe/flashlight
+	name = "Flashlight"
+	path = /obj/item/device/flashlight
 	category = "General"

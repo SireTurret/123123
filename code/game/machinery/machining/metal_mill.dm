@@ -1,5 +1,6 @@
 /obj/machinery/metal_mill
 	name = "Mill"
+	name = "metal_mill"
 	desc = "It mills metal.  Use it to make holes in things.."
 	icon_state = "mill"
 	density = 1
@@ -24,6 +25,14 @@
 
 	..()
 	//Create parts for lathe.
+	component_parts = list()
+	component_parts += new /obj/item/weapon/circuitboard/autolathe(src)
+	component_parts += new /obj/item/weapon/stock_parts/matter_bin(src)
+	component_parts += new /obj/item/weapon/stock_parts/matter_bin(src)
+	component_parts += new /obj/item/weapon/stock_parts/matter_bin(src)
+	component_parts += new /obj/item/weapon/stock_parts/manipulator(src)
+	component_parts += new /obj/item/weapon/stock_parts/console_screen(src)
+	RefreshParts()
 
 /obj/machinery/metal_mill/Destroy()
 	return ..()
@@ -51,7 +60,9 @@
 		inserted_object = 0
 		busy = 1
 		update_use_power(2)
+
 		sleep(build_time)
+
 		busy = 0
 		update_use_power(1)
 
@@ -70,6 +81,18 @@
 	//user << browse(dat, "window=metal_mill")
 	//onclose(user, "metal_mill")
 	busy = 0
+
+		var/path = making.mill(user)
+		var/obj/item/I
+		if (path)
+			I = new path(loc)
+		if(istype(I, /obj/item/stack))
+			var/obj/item/stack/S = I
+			S.amount = 0
+		//consume object
+
+	//user << browse(dat, "window=metal_mill")
+	//onclose(user, "metal_mill")
 
 //THE OBJECT BEING ADDED IS THE LETTER "O" NOT A 0(ZERO)
 /obj/machinery/metal_mill/attackby(var/obj/item/O as obj, var/mob/user as mob)
@@ -92,14 +115,14 @@
 		return 0
 
 	if(istype(O,/obj/item/stack))
-		to_chat(user, "<span class='notice'>[O] is too big for the mill!</span>")
+		to_chat(user, "<span class='notice'>The stack is too big for the mill!</span>")
 		return
 	//Resources are being loaded.
 	var/obj/item/eating = O
 	//You can put ANYTHING in as long as it's not full
 	// TODO: needs size check
 	if (inserted_object)
-		to_chat(user, "<span class='notice'>\The [src] is full. Please remove the object from the mill in order to insert another.</span>")
+		to_chat(user, "<span class='notice'>\The [src] is full. Please remove the object from the metal mill in order to insert another.</span>")
 		return
 	else
 		inserted_object = eating
@@ -116,3 +139,24 @@
 /obj/machinery/metal_mill/attack_hand(mob/user as mob)
 	//user.set_machine(src)
 	interact(user)
+
+/obj/machinery/metal_mill/update_icon()
+	icon_state = (panel_open ? "autolathe_t" : "autolathe")
+
+//Updates overall lathe storage size.
+/obj/machinery/metal_mill/RefreshParts()
+	..()
+	var/mb_rating = 0
+	var/man_rating = 0
+	for(var/obj/item/weapon/stock_parts/matter_bin/MB in component_parts)
+		mb_rating += MB.rating
+	for(var/obj/item/weapon/stock_parts/manipulator/M in component_parts)
+		man_rating += M.rating
+
+	build_time = 50 / man_rating
+	mat_efficiency = 1.1 - man_rating * 0.1// Normally, price is 1.25 the amount of material, so this shouldn't go higher than 0.8. Maximum rating of parts is 3
+
+/obj/machinery/metal_mill/dismantle()
+	inserted_object = null
+	..()
+	return 1

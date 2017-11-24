@@ -4,7 +4,7 @@
 	w_class = ITEM_SIZE_NORMAL
 	desc = "This is a reciever."
 	icon_state = "reciever"
-	matter = list(DEFAULT_WALL_MATERIAL = 500)
+	matter = list(DEFAULT_WALL_MATERIAL = 25)
 
 /obj/item/action
 	name = "Action"
@@ -12,7 +12,7 @@
 	w_class = ITEM_SIZE_NORMAL
 	desc = "This is a action."
 	icon_state = "action"
-	matter = list(DEFAULT_WALL_MATERIAL = 400)
+	matter = list(DEFAULT_WALL_MATERIAL = 20)
 
 /obj/item/metal_bar
 	name = "Metal Bar"
@@ -20,13 +20,11 @@
 	w_class = ITEM_SIZE_NORMAL
 	desc = "This is a metal bar.  Can be made into lots of stuff"
 	icon_state = "metal_bar"
-	matter = list(DEFAULT_WALL_MATERIAL = 300)
-
+	matter = list(DEFAULT_WALL_MATERIAL = 15)
 	mill()
 		return /obj/item/pipe
 	press()
 		return /obj/item/weapon/crowbar
-
 
 /obj/item/glass_bar
 	name = "Glass Bar"
@@ -47,14 +45,13 @@
 	icon_state = "glass_tube"
 	matter = list("glass" = 200)
 
-
 /obj/item/metal_shiv
 	name = "Metal shiv"
 	icon = 'icons/obj/crafting.dmi'
 	w_class = ITEM_SIZE_NORMAL
 	desc = "This is a metal shiv. It can be made into many things."
 	icon_state = "metal_shiv"
-	matter = list(DEFAULT_WALL_MATERIAL = 300)
+	matter = list(DEFAULT_WALL_MATERIAL = 15)
 
 	press()
 		return /obj/item/screwdriver_head
@@ -72,7 +69,7 @@
 	w_class = ITEM_SIZE_NORMAL
 	desc = "This is a top of a wrench."
 	icon_state = "wrench_head"
-	matter = list(DEFAULT_WALL_MATERIAL = 800)
+	matter = list(DEFAULT_WALL_MATERIAL = 40)
 
 /obj/item/glass_handle
 	name = "Glass handle"
@@ -80,7 +77,7 @@
 	w_class = ITEM_SIZE_NORMAL
 	desc = "This is a piece of glass.  It could be used as a handle"
 	icon_state = "glass_handle"
-	matter = list("glass" = 400)
+	matter = list("glass" = 20)
 
 /obj/item/cylinder
 	var/chambers = 0
@@ -89,7 +86,7 @@
 	w_class = ITEM_SIZE_NORMAL
 	desc = "This is a makeshift cylinder.  It has zero holes drilled into it"
 	icon_state = "cylinder_0"
-	matter = list(DEFAULT_WALL_MATERIAL = 500)
+	matter = list(DEFAULT_WALL_MATERIAL = 25)
 
 	mill(var/mob/user)
 		switch(chambers)
@@ -107,8 +104,7 @@
 					return /obj/item/cylinder/four_slot
 			if(4)
 				to_chat(usr, "<span class='notice'>You nick another hole, and the cylinder falls apart.</span>")
-				return /obj/item/weapon/ore/slag
-		return /obj/item/weapon/ore/slag
+		return null
 
 	press()
 		return /obj/item/wrench_head
@@ -159,3 +155,23 @@
 
 /obj/item/weapon/gun/projectile/revolver/crafted/four_chamber
 	max_shells = 4
+
+/obj/item/weapon/gun/projectile/revolver/zero_chamber
+	max_shells = 0
+	icon_state = "crafted_revolver"
+
+/obj/item/weapon/gun/projectile/revolver/one_chamber
+	max_shells = 1
+	icon_state = "crafted_revolver"
+
+/obj/item/weapon/gun/projectile/revolver/two_chamber
+	max_shells = 2
+	icon_state = "crafted_revolver"
+
+/obj/item/weapon/gun/projectile/revolver/three_chamber
+	max_shells = 3
+	icon_state = "crafted_revolver"
+
+/obj/item/weapon/gun/projectile/revolver/four_chamber
+	max_shells = 4
+	icon_state = "crafted_revolver"

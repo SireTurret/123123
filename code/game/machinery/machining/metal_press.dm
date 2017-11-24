@@ -1,5 +1,5 @@
 /obj/machinery/metal_press
-	name = "Press"
+	name = "Metal Press"
 	desc = "It presses metal.  Use it to make shape metal."
 	icon_state = "press"
 	density = 1
@@ -23,6 +23,15 @@
 /obj/machinery/metal_press/New()
 
 	..()
+	//Create parts for lathe.
+	component_parts = list()
+	component_parts += new /obj/item/weapon/circuitboard/autolathe(src)
+	component_parts += new /obj/item/weapon/stock_parts/matter_bin(src)
+	component_parts += new /obj/item/weapon/stock_parts/matter_bin(src)
+	component_parts += new /obj/item/weapon/stock_parts/matter_bin(src)
+	component_parts += new /obj/item/weapon/stock_parts/manipulator(src)
+	component_parts += new /obj/item/weapon/stock_parts/console_screen(src)
+	RefreshParts()
 
 /obj/machinery/metal_press/Destroy()
 	return ..()
@@ -55,6 +64,13 @@
 		update_use_power(2)
 
 		sleep(build_time)
+
+		busy = 1
+		update_use_power(2)
+
+		playsound(src,'sound/mecha/hydraulic.ogg',40,1)
+		sleep(build_time)
+
 		busy = 0
 		update_use_power(1)
 
@@ -71,6 +87,15 @@
 			new pressing(loc)
 		//consume object
 	busy = 0
+		var/path = making.press()
+		var/obj/item/I
+		if (path)
+			I = new path(loc)
+		if(istype(I, /obj/item/stack))
+			var/obj/item/stack/S = I
+			S.amount = 0
+		//consume object
+		inserted_object = 0
 
 //THE OBJECT BEING ADDED IS THE LETTER "O" NOT A 0(ZERO)
 /obj/machinery/metal_press/attackby(var/obj/item/O as obj, var/mob/user as mob)
@@ -97,14 +122,14 @@
 		return 0
 
 	if(istype(O,/obj/item/stack))
-		to_chat(user, "<span class='notice'>The stack is to big for the press!</span>")
+		to_chat(user, "<span class='notice'>The stack is too big for the mill!</span>")
 		return
 	//Resources are being loaded.
 	var/obj/item/eating = O
 	//You can put ANYTHING in as long as it's not full
 	// TODO: needs size check
 	if (inserted_object)
-		to_chat(user, "<span class='notice'>\The [src] is full. Please remove the object from the press in order to insert another.</span>")
+		to_chat(user, "<span class='notice'>\The [src] is full. Please remove the object from the metal press in order to insert another.</span>")
 		return
 	else
 		inserted_object = eating
@@ -120,3 +145,24 @@
 /obj/machinery/metal_press/attack_hand(mob/user as mob)
 	//user.set_machine(src)
 	interact(user)
+
+/obj/machinery/metal_press/update_icon()
+	icon_state = (panel_open ? "autolathe_t" : "autolathe")
+
+//Updates overall lathe storage size.
+/obj/machinery/metal_press/RefreshParts()
+	..()
+	var/mb_rating = 0
+	var/man_rating = 0
+	for(var/obj/item/weapon/stock_parts/matter_bin/MB in component_parts)
+		mb_rating += MB.rating
+	for(var/obj/item/weapon/stock_parts/manipulator/M in component_parts)
+		man_rating += M.rating
+
+	build_time = 50 / man_rating
+	mat_efficiency = 1.1 - man_rating * 0.1// Normally, price is 1.25 the amount of material, so this shouldn't go higher than 0.8. Maximum rating of parts is 3
+
+/obj/machinery/metal_press/dismantle()
+	inserted_object = null
+	..()
+	return 1

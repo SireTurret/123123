@@ -1,5 +1,5 @@
 /obj/machinery/metal_lathe
-	name = "Lathe"
+	name = "Metal Lathe"
 	desc = "It produces items using metal and glass."
 	icon_state = "lathe"
 	density = 1
@@ -12,7 +12,7 @@
 
 	var/list/machine_recipes
 	var/list/stored_material =  list(DEFAULT_WALL_MATERIAL = 0, "glass" = 0)
-	var/list/storage_capacity = list(DEFAULT_WALL_MATERIAL = 5000, "glass" = 5000)
+	var/list/storage_capacity = list(DEFAULT_WALL_MATERIAL = 50, "glass" = 50)
 	var/show_category = "All"
 
 	var/disabled = 0
@@ -27,6 +27,12 @@
 	..()
 	//Create parts for lathe.
 	component_parts = list()
+	component_parts += new /obj/item/weapon/circuitboard/autolathe(src)
+	component_parts += new /obj/item/weapon/stock_parts/matter_bin(src)
+	component_parts += new /obj/item/weapon/stock_parts/matter_bin(src)
+	component_parts += new /obj/item/weapon/stock_parts/matter_bin(src)
+	component_parts += new /obj/item/weapon/stock_parts/manipulator(src)
+	component_parts += new /obj/item/weapon/stock_parts/console_screen(src)
 	RefreshParts()
 
 /obj/machinery/metal_lathe/Destroy()
@@ -149,36 +155,37 @@
 			to_chat(user, "<span class='notice'>\The [src] is full. Remove material from the lathe in order to insert more.</span>")
 			continue
 
-		total_material = (eating.matter[material]/20)
+		var/total_material = eating.matter[material]
 
 		//If it's a stack, we eat multiple sheets.
 		if(istype(eating,/obj/item/stack))
 			var/obj/item/stack/stack = eating
 			//Stacks only count as one metal.  This is to reduce numbers while
-			total_material += (total_material) * stack.get_amount()
+			total_material += stack.get_amount()
+
 		if(stored_material[material] + total_material > storage_capacity[material])
 			total_material = storage_capacity[material] - stored_material[material]
 			filltype = 1
 		else
 			filltype = 2
 
-		stored_material[material] += (total_material)
-		total_used += (total_material) // The old way I did this was retarded, now everything is just scaled down by 20 This means old item values still work
-		mass_per_sheet += (eating.matter[material]/20)
+		stored_material[material] += total_material
+		total_used += total_material //This will always be 50, meaning steel gets a horrible return rate
+		mass_per_sheet += eating.matter[material]
 
 	if(!filltype)
-		to_chat(user, "<span class='notice'>\The [src] is full. Please remove material from the lathe in order to insert more.</span>")
+		to_chat(user, "<span class='notice'>\The [src] is full. Please remove material from the metal_lathe in order to insert more.</span>")
 		return
 	else if(filltype == 1)
 		to_chat(user, "You fill \the [src] to capacity with \the [eating].")
 	else
 		to_chat(user, "You fill \the [src] with \the [eating].")
 
-	//flick("metal_lathe_o", src) // Plays metal insertion animation. Work out a good way to work out a fitting animation. ~Z
+	flick("metal_lathe_o", src) // Plays metal insertion animation. Work out a good way to work out a fitting animation. ~Z
 
 	if(istype(eating,/obj/item/stack))
 		var/obj/item/stack/stack = eating
-		stack.use(max(1, round(total_used/mass_per_sheet))) // Always use at least 1 to prevent infinite materials.
+		stack.use(max(1, round(total_used))) // Always use at least 1 to prevent infinite materials.
 	else
 		user.remove_from_mob(O)
 		qdel(O)
@@ -199,7 +206,7 @@
 	add_fingerprint(usr)
 
 	if(busy)
-		to_chat(usr, "<span class='notice'>The lathe is busy. Please wait for completion of previous operation.</span>")
+		to_chat(usr, "<span class='notice'>The metal lathe is busy. Please wait for completion of previous operation.</span>")
 		return
 
 	if(href_list["change_category"])
@@ -220,8 +227,8 @@
 		//Exploit detection, not sure if necessary after rewrite.
 		if(!making || multiplier < 0 || multiplier > 100)
 			var/turf/exploit_loc = get_turf(usr)
-			message_admins("[key_name_admin(usr)] tried to exploit a metal_lathe to duplicate an item! ([exploit_loc ? "<a href='?_src_=holder;adminplayerobservecoodjump=1;X=[exploit_loc.x];Y=[exploit_loc.y];Z=[exploit_loc.z]'>JMP</a>" : "null"])", 0)
-			log_admin("EXPLOIT : [key_name(usr)] tried to exploit a metal_lathe to duplicate an item!")
+			message_admins("[key_name_admin(usr)] tried to exploit an metal_lathe to duplicate an item! ([exploit_loc ? "<a href='?_src_=holder;adminplayerobservecoodjump=1;X=[exploit_loc.x];Y=[exploit_loc.y];Z=[exploit_loc.z]'>JMP</a>" : "null"])", 0)
+			log_admin("EXPLOIT : [key_name(usr)] tried to exploit an metal_lathe to duplicate an item!")
 			return
 
 		busy = 1
@@ -256,12 +263,25 @@
 		if(multiplier > 1 && istype(I, /obj/item/stack))
 			var/obj/item/stack/S = I
 			S.amount = multiplier
-	busy = 0
 	updateUsrDialog()
+
+/obj/machinery/metal_lathe/update_icon()
+	icon_state = (panel_open ? "autolathe_t" : "autolathe")
 
 //Updates overall lathe storage size.
 /obj/machinery/metal_lathe/RefreshParts()
-	mat_efficiency = 1
+	..()
+	var/mb_rating = 0
+	var/man_rating = 0
+	for(var/obj/item/weapon/stock_parts/matter_bin/MB in component_parts)
+		mb_rating += MB.rating
+	for(var/obj/item/weapon/stock_parts/manipulator/M in component_parts)
+		man_rating += M.rating
+
+	//storage_capacity[DEFAULT_WALL_MATERIAL] = mb_rating  * 25000
+	//storage_capacity["glass"] = mb_rating  * 12500
+	build_time = 50 / man_rating
+	mat_efficiency = 1.1 - man_rating * 0.1// Normally, price is 1.25 the amount of material, so this shouldn't go higher than 0.8. Maximum rating of parts is 3
 
 /obj/machinery/metal_lathe/dismantle()
 
