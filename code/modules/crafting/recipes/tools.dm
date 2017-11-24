@@ -9,7 +9,6 @@
 
 /datum/crafting_recipe/wirecutters
 	name = "Wirecutters"
-	parts = list(/obj/item/weapon/material/butterflyblade = 2)
 	parts = list(/obj/item/metal_shiv = 2)
 	tools = list(/obj/item/weapon/screwdriver = 1)
 	result = list(/obj/item/weapon/wirecutters = 1)

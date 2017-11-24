@@ -160,7 +160,7 @@
 		//If it's a stack, we eat multiple sheets.
 		if(istype(eating,/obj/item/stack))
 			var/obj/item/stack/stack = eating
-			//Stacks only count as one metal.  This is to reduce numbers while
+			//Stacks only count as one metal.  This is to reduce numbers while>>>>>>> 4707cf167d... Machining (#201)
 			total_material += stack.get_amount()
 
 		if(stored_material[material] + total_material > storage_capacity[material])
@@ -263,6 +263,7 @@
 		if(multiplier > 1 && istype(I, /obj/item/stack))
 			var/obj/item/stack/S = I
 			S.amount = multiplier
+
 	updateUsrDialog()
 
 /obj/machinery/metal_lathe/update_icon()

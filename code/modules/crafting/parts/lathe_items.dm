@@ -21,6 +21,7 @@
 	desc = "This is a metal bar.  Can be made into lots of stuff"
 	icon_state = "metal_bar"
 	matter = list(DEFAULT_WALL_MATERIAL = 15)
+
 	mill()
 		return /obj/item/pipe
 	press()

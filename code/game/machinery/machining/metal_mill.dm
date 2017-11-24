@@ -1,7 +1,6 @@
 /obj/machinery/metal_mill
-	name = "Mill"
-	name = "metal_mill"
-	desc = "It mills metal.  Use it to make holes in things.."
+	name = "Metal Mill"
+	desc = "It mills metal. Use it to make holes in things."
 	icon_state = "mill"
 	density = 1
 	anchored = 1
@@ -58,6 +57,7 @@
 			playsound(src,'sound/mecha/mechdrill.ogg',30,1)
 		making = inserted_object
 		inserted_object = 0
+
 		busy = 1
 		update_use_power(2)
 
@@ -68,19 +68,6 @@
 
 		//Sanity check.
 		if(!making || !src) return
-
-		//Mill the item, for better or worse
-		var/obj/item/milling= making.mill(user)
-		if (!milling)
-			if (user.skillcheck(user.engineering_skill, 65, 1, message = "You try to mill the object but it uselessly falls apart.  You don't think this item was meant to be milled.."))
-				to_chat(user, "<span class='notice'>The [making] falls out of the mill.  You don't think this item was meant to be milled...</span>")
-				new making.type(src.loc)
-		else
-			new milling(loc)
-		//consume object
-	//user << browse(dat, "window=metal_mill")
-	//onclose(user, "metal_mill")
-	busy = 0
 
 		var/path = making.mill(user)
 		var/obj/item/I

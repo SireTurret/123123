@@ -62,12 +62,6 @@
 			playsound(src,'sound/mecha/hydraulic.ogg',40,1)
 		busy = 1
 		update_use_power(2)
-
-		sleep(build_time)
-
-		busy = 1
-		update_use_power(2)
-
 		playsound(src,'sound/mecha/hydraulic.ogg',40,1)
 		sleep(build_time)
 
@@ -77,16 +71,6 @@
 		//Sanity check.
 		if(!making || !src) return
 
-		//press the item, for better or worse
-		var/obj/item/pressing = making.press(user)
-		if (!pressing)
-			if (user.skillcheck(user.engineering_skill, 65, 1, message = "You try to press the object but it uselessly falls apart.  You don't think this item was meant to be pressed.."))
-				to_chat(user, "<span class='notice'>The [making] falls out of the press.  You don't think this item was meant to be pressed...</span>")
-				new  making.type(src.loc)
-		else
-			new pressing(loc)
-		//consume object
-	busy = 0
 		var/path = making.press()
 		var/obj/item/I
 		if (path)
