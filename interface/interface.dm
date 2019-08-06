@@ -12,8 +12,8 @@
 	return
 
 /client/verb/forum()
-	set name = "forum"
-	set desc = "Visit the forum."
+	set name = "Discord"
+	set desc = "Discord Link"
 	set hidden = 1
 	if( config.forumurl )
 		if(alert("This will open the forum in your browser. Are you sure?",,"Yes","No")=="No")

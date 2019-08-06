@@ -854,7 +854,7 @@
 						H.fuck(H, P, "anal")
 				else
 					var/message = pick("it's not erect...")//, "Êàê-òî íåò æåëàíè[ya]...", "×òî-òî íå îõîòà...", "Íåò, íå ñåé÷àñ.")
-					H << message
+					to_chat(H, message)
 		else if (href_list["interaction"] == "vaginal")
 			if (H.loc == P.loc && isnude_p && isnude && haspenis && hasanus_p)
 				if (H.erpcooldown == 0)
@@ -862,7 +862,7 @@
 						H.fuck(H, P, "vaginal")
 				else
 					var/message = pick("it's not erect...")//"Íå õî÷åòñ[ya] ìíå...", "Êàê-òî íåò æåëàíè[ya]...", "×òî-òî íå îõîòà...", "Íåò, íå ñåé÷àñ.")
-					H << message
+					to_chat(H, message)
 
 		else if (href_list["interaction"] == "oral")
 			if (H.loc == P.loc && isnude && mouthfree_p && haspenis)
@@ -871,18 +871,18 @@
 						H.fuck(H, P, "oral")
 				else
 					var/message = pick("it's not erect...")//"Íå õî÷åòñ[ya] ìíå...", "Êàê-òî íåò æåëàíè[ya]...", "×òî-òî íå îõîòà...", "Íåò, íå ñåé÷àñ.")
-					H << message
+					to_chat(H, message)
 
 		else if (href_list["interaction"] == "mount")
 			if (H.loc == P.loc && isnude && isnude_p && haspenis_p && hasvagina)
 				if (P.lust <= 0)
 					var/message = pick("It's not up...")//"Èíñòðóìåíò íå ïåðåâåäåí â ðàáî÷åå ñîñòî[ya]íèå...", "Ó íåãî åùå íå âñòàë...", "À îí ëåæèò...", "Íèêàê íå íàñàäèòüñ[ya]...")
-					H << message
+					to_chat(H, message)
 				else if (H.erpcooldown == 0)
 					H.fuck(H, P, "mount")
 				else
 					var/message = pick("You have no lust now.")//"Íå õî÷åòñ[ya] ìíå...", "Êàê-òî íåò æåëàíè[ya]...", "×òî-òî íå îõîòà...", "Íåò, íå ñåé÷àñ.")
-					H << message
+					to_chat(H, message)
 
 	..()
 	return

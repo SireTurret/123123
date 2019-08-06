@@ -113,13 +113,13 @@
 	spawn(30) qdel(speech_bubble)
 
 	for(var/mob/M in listening)
-		M << speech_bubble
+		to_chat(M, speech_bubble)
 		M.hear_say(message, verb, speaking, alt_name, italics, src)
 
 	if (eavesdropping.len)
 		var/new_message = stars(message)	//hopefully passing the message twice through stars() won't hurt... I guess if you already don't understand the language, when they speak it too quietly to hear normally you would be able to catch even less.
 		for(var/mob/M in eavesdropping)
-			M << speech_bubble
+			to_chat(M, speech_bubble)
 			M.hear_say(new_message, verb, speaking, alt_name, italics, src)
 
 	if (watching.len)

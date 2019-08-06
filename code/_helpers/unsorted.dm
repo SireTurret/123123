@@ -172,6 +172,11 @@ Turf and target are seperate in case you want to teleport some distance from a t
 	return 0
 
 
+
+/proc/stack_trace(message = "Getting a stack trace.")
+	CRASH(message)
+
+
 /proc/DirBlocked(turf/loc,var/dir)
 	for(var/obj/structure/window/D in loc)
 		if(!D.density)			continue
@@ -194,6 +199,9 @@ Turf and target are seperate in case you want to teleport some distance from a t
 
 /proc/sign(x)
 	return x!=0?x/abs(x):0
+
+
+
 
 /proc/getline(atom/M,atom/N)//Ultra-Fast Bresenham Line-Drawing Algorithm
 	var/px=M.x		//starting x

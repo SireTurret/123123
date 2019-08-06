@@ -68,14 +68,16 @@
 		var/H = rand(1,20)// our "dice"
 		H += mood_affect(1)// our skill modifier
 		if(stat >= H)//Rolling that d20
-			//world << "Rolled and passed."
+//			to_chat(world, "Rolled and passed.")
+
 			return 1
 		else
 			if(show_message)//If we fail then print this message and return 0.
 				to_chat(src, "<span class = 'warning'>[message]</span>")
 			return 0
 	else
-		//world << "Didn't roll and passed."
+//		to_chat(world, "Didn't roll and passed.")
+
 		return 1
 
 //having a bad mood fucks your shit up fam.

@@ -71,11 +71,11 @@
 	if(health < maxhealth)
 		switch(health / maxhealth)
 			if(0.0 to 0.5)
-				user << "<span class='warning'>It looks severely damaged!</span>"
+				to_chat(user, "<span class='warning'>It looks severely damaged!</span>")
 			if(0.25 to 0.5)
-				user << "<span class='warning'>It looks damaged!</span>"
+				to_chat(user, "<span class='warning'>It looks damaged!</span>")
 			if(0.5 to 1.0)
-				user << "<span class='notice'>It has a few scrapes and dents.</span>"
+				to_chat(user, "<span class='notice'>It has a few scrapes and dents.</span>")
 
 /obj/structure/railing/proc/take_damage(amount)
 	health -= amount
@@ -133,9 +133,9 @@
 			src.LeftSide[3] = 1
 		if ((R.dir == Rturn) && R.anchored)//ѕроверка правой стороны
 			src.RightSide[3] = 1*/
-	//check <<"check: [check]"
-	//world << "dir = [src.dir]"
-	//world << "railing[LeftSide[1]][LeftSide[2]][LeftSide[3]]-[RightSide[1]][RightSide[2]][RightSide[3]]"
+//	to_chat(check, "check: [check]")
+//	to_chat(world, "dir = [src.dir]")
+//	to_chat(world, "railing[LeftSide[1]][LeftSide[2]][LeftSide[3]]-[RightSide[1]][RightSide[2]][RightSide[3]]")
 
 /obj/structure/railing/update_icon(var/UpdateNeighgors = 1)
 	NeighborsCheck(UpdateNeighgors)
@@ -148,13 +148,13 @@
 		//лева€ сторона
 		if (check & 32)
 			overlays += image ('maps/dreyfus/icons/railing.dmi', src, "corneroverlay")
-			//world << "32 check"
+//			to_chat(world, "32 check")
 		if ((check & 16) || !(check & 32) || (check & 64))
 			overlays += image ('maps/dreyfus/icons/railing.dmi', src, "frontoverlay_l")
-			//world << "16 check"
+//			to_chat(world, "16 check")
 		if (!(check & 2) || (check & 1) || (check & 4))
 			overlays += image ('maps/dreyfus/icons/railing.dmi', src, "frontoverlay_r")
-			//world << "no 4 or 2 check"
+//			to_chat(world, "no 4 or 2 check")
 			if(check & 4)
 				switch (src.dir)
 					if (NORTH)
@@ -178,7 +178,7 @@
 		return 0
 
 	if(anchored)
-		usr << "It is fastened to the floor therefore you can't rotate it!"
+		to_chat(usr, "It is fastened to the floor therefore you can't rotate it!")
 		return 0
 
 	set_dir(turn(dir, 90))
@@ -194,7 +194,7 @@
 		return 0
 
 	if(anchored)
-		usr << "It is fastened to the floor therefore you can't rotate it!"
+		to_chat(usr, "It is fastened to the floor therefore you can't rotate it!")
 		return 0
 
 	set_dir(turn(dir, -90))
@@ -210,11 +210,11 @@
 		return 0
 
 	if(anchored)
-		usr << "It is fastened to the floor therefore you can't flip it!"
+		to_chat(usr, "It is fastened to the floor therefore you can't flip it!")
 		return 0
 
 	if(!neighbor_turf_passable())
-		usr << "You can't flip the [src] because something blocking it."
+		to_chat(usr, "You can't flip the [src] because something blocking it.")
 		return 0
 
 	src.loc = get_step(src, src.dir)
@@ -255,7 +255,7 @@
 		user.visible_message(anchored ? "<span class='notice'>\The [user] begins unscrew \the [src].</span>" : "<span class='notice'>\The [user] begins fasten \the [src].</span>" )
 		playsound(loc, 'sound/items/Screwdriver.ogg', 75, 1)
 		if(do_after(user, 10, src))
-			user << (anchored ? "<span class='notice'>You have unfastened \the [src] from the floor.</span>" : "<span class='notice'>You have fastened \the [src] to the floor.</span>")
+			to_chat(user, (anchored ? "<span class='notice'>You have unfastened \the [src] from the floor.</span>" : "<span class='notice'>You have fastened \the [src] to the floor.</span>"))
 			anchored = !anchored
 			update_icon()
 			return
@@ -267,7 +267,7 @@
 			var/mob/living/M = G.affecting
 			var/obj/occupied = turf_is_crowded()
 			if(occupied)
-				user << "<span class='danger'>There's \a [occupied] in the way.</span>"
+				to_chat(user, "<span class='danger'>There's \a [occupied] in the way.</span>")
 				return
 			if (G.state < 2)
 				if(user.a_intent == I_HURT)
@@ -277,7 +277,7 @@
 					visible_message("<span class='danger'>[G.assailant] slams [G.affecting]'s face against \the [src]!</span>")
 					playsound(loc, 'sound/effects/grillehit.ogg', 50, 1)
 				else
-					user << "<span class='danger'>You need a better grip to do that!</span>"
+					to_chat(user, "<span class='danger'>You need a better grip to do that!</span>")
 					return
 			else
 				if (get_turf(G.affecting) == get_turf(src))
@@ -325,7 +325,7 @@
 		return
 
 	if(!neighbor_turf_passable())
-		user << "<span class='danger'>You can't climb there, the way is blocked.</span>"
+		to_chat(user, "<span class='danger'>You can't climb there, the way is blocked.</span>")
 		climbers -= user
 		return
 
