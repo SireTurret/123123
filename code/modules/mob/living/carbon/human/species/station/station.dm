@@ -95,9 +95,10 @@
 	secondary_langs = list(LANGUAGE_UNATHI)
 	name_language = LANGUAGE_UNATHI
 	health_hud_intensity = 2
-
 	min_age = 18
 	max_age = 60
+	teeth_type = /obj/item/stack/teeth/human //Teeth
+
 
 	blurb = "A heavily reptillian species, Unathi (or 'Sinta as they call themselves) hail from the \
 	Uuosa-Eso system, which roughly translates to 'burning mother'.<br/><br/>Coming from a harsh, radioactive \
@@ -113,7 +114,7 @@
 	heat_level_2 = 480 //Default 400
 	heat_level_3 = 1100 //Default 1000
 
-	spawn_flags = SPECIES_CAN_JOIN | SPECIES_IS_WHITELISTED
+	spawn_flags = SPECIES_CAN_JOIN
 	appearance_flags = HAS_HAIR_COLOR | HAS_LIPS | HAS_UNDERWEAR | HAS_SKIN_COLOR | HAS_EYE_COLOR
 
 	flesh_color = "#34AF10"
