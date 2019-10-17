@@ -39,8 +39,6 @@ var/datum/species/shapeshifter/promethean/prometheans
 	rarity_value =        5
 	genitals = 1
 	anus = 1
-	var/teeth_type = /obj/item/stack/teeth/generic
-
 
 	unarmed_types = list(/datum/unarmed_attack/slime_glomp)
 	has_organ =     list(BP_BRAIN = /obj/item/organ/internal/brain/slime, BP_TONGUE =   /obj/item/organ/internal/tongue) // Slime core.
