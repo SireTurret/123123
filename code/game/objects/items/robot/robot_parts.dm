@@ -96,7 +96,11 @@
 	var/success = TRUE;
 	if(!(flash1 && flash2))
 		to_chat(user, "<span class='warning'>You need to attach a flash to it first!</span>")
+<<<<<<< HEAD
 		success = FALSE;
+=======
+		success = FALSE
+>>>>>>> f8cba3e026... Fixing code to work with 513
 	return success && ..();
 
 /obj/item/robot_parts/robot_suit
