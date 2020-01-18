@@ -5,5 +5,5 @@
 # Ranks can be anything defined in admin_ranks.txt           ~Carn   #
 ######################################################################
 
-Desion134 - Host
-Dathouse - Host
+Turret_Drehturm - Host
+MacarioCR - Head Admin
