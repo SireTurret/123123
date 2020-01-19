@@ -24,8 +24,7 @@
 	name = "Throwing Star"
 	item_cost = 5
 	path = /obj/item/weapon/material/star/ninja
-/*
-/datum/uplink_item/item/visible_weapons/dartgun
+/*datum/uplink_item/item/visible_weapons/dartgun
 	name = "Dart Gun"
 	item_cost = 20
 	path = /obj/item/weapon/material/star
